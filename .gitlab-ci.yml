@@ -8,3 +8,4 @@ default:
   script:
     - gulp test
     - gulp lint
+    - sh output-coverage.sh
