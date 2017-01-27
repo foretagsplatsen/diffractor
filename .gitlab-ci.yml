@@ -1,0 +1,10 @@
+image: node:7
+
+before_script:
+  - npm install -g gulp
+  - npm install
+
+default:
+  script:
+    - gulp test
+    - gulp lint
