@@ -76,8 +76,8 @@ var requireJSOptions = {
 	mainConfigFile: "./config.js",
 	wrap: wrap,
 	paths: {
-		"jquery": "../bower_components/requirejs/require",
-		"klassified": "../bower_components/klassified/src/object"
+		"jquery": "../node_modules/requirejs/require",
+		"klassified": "../node_modules/klassified/src/object"
 	},
 	findNestedDependencies: true
 };
