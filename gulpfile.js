@@ -11,7 +11,8 @@ var plugins = require("gulp-load-plugins")({
 		"gulp-strip-code": "stripCode",
 		"gulp-sequence": "sequence",
 		"gulp-requirejs-optimize": "optimizer",
-		"gulp-bump": "bump"
+		"gulp-bump": "bump",
+		"gulp-sourcemaps": "sourcemaps"
 	}
 });
 
@@ -69,7 +70,7 @@ gulp.task("strip", function() {
 			start_comment: "start-test",
 			end_comment: "end-test"
 		}))
-		.pipe(gulp.dest("strip/src"));
+		.pipe(gulp.dest("strip"));
 });
 
 var requireJSOptions = {
@@ -86,12 +87,12 @@ gulp.task("optimize", ["strip"], function() {
 	var options = Object.assign(requireJSOptions);
 	options.baseUrl = "strip";
 	options.optimize = "none";
-	options.include = ["src/diffractor"];
+	options.include = ["diffractor"];
 	options.exclude = ["jquery", "klassified"];
-	options.insertRequire = ["src/diffractor"];
+	options.insertRequire = ["diffractor"];
 	options.out = "diffractor.js";
 
-	return gulp.src("strip/src/diffractor.js")
+	return gulp.src("strip/diffractor.js")
 		.pipe(plugins.optimizer(options))
 		.pipe(gulp.dest("dist"));
 });
@@ -100,13 +101,18 @@ gulp.task("optimize:minify", ["strip"], function() {
 	var options = Object.assign(requireJSOptions);
 	delete options.optimize;
 	options.baseUrl = "strip";
-	options.include = ["src/diffractor"];
+	options.include = ["diffractor"];
 	options.exclude = ["jquery", "klassified"];
-	options.insertRequire = ["src/diffractor"];
+	options.insertRequire = ["diffractor"];
 	options.out = "diffractor.min.js";
 
 	return gulp.src("strip/diffractor.js")
+		.pipe(plugins.sourcemaps.init())
 		.pipe(plugins.optimizer(options))
+		.pipe(plugins.sourcemaps.mapSources((sourcePath, file) => {
+			return "../src/" + sourcePath;
+		}))
+		.pipe(plugins.sourcemaps.write("./"))
 		.pipe(gulp.dest("dist"));
 });
 
