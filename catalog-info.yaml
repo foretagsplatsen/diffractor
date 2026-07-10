@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: "diffractor"
+  description: "diffractor"
+  annotations:
+    wolterskluwer.io/globalactions-optin: "OrcaSAST,OrcaSCA"
+    wolterskluwer.io/globalactions-optout: ""
+
+spec:
+  type: "website"
+  lifecycle: "production"
+  owner: "donotreply@wolterskluwer.com"
